@@ -55,7 +55,7 @@ A Inteligência Artificial foi usada apenas para revisar e otimizar algumas deci
 
 ## Deploy
 
-Link do Vercel: *(inserir após a publicação)*
+Link do Vercel: https://event-horizon-scanner.vercel.app
 
 Link do GitHub: https://github.com/TASS154/event-horizon-scanner
 
