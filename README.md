@@ -65,3 +65,4 @@ Link do GitHub: https://github.com/TASS154/event-horizon-scanner
 - Felipe Anderson Silva Peres - 573654
 - Thiago Alexandre Santos Silva - 571342
 - Fabricio Mendoza - 571571
+- Guilherme Zeferino Gonçalves - RM572075
