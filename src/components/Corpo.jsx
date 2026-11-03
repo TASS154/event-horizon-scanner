@@ -1,50 +1,43 @@
+import { Route, Routes } from "react-router-dom";
 import PaginaInicio from "./PaginaInicio.jsx";
 import PaginaFuncionamento from "./PaginaFuncionamento.jsx";
 import PaginaTecnico from "./PaginaTecnico.jsx";
 import PaginaSobre from "./PaginaSobre.jsx";
 import PaginaCentral from "./PaginaCentral.jsx";
+import RotaPrivada from "./RotaPrivada.jsx";
+import PaginaNaoEncontrada from "./PaginaNaoEncontrada.jsx";
 
 function Corpo(props) {
-  /*
-    Revisão da IA
-    Antes: o App.jsx montava as cinco páginas no mesmo return, com if gigante no meio do layout.
-    Agora: o Corpo escolhe a página e o Header/Footer ficam de fora.
-    Motivo: Header e Footer não precisavam ser desenhados de novo dentro de cada tela.
-  */
-  let conteudo;
-
-  if (props.pagina === "funcionamento") {
-    conteudo = <PaginaFuncionamento onNavegar={props.onNavegar} />;
-  } else if (props.pagina === "tecnico") {
-    conteudo = <PaginaTecnico onNavegar={props.onNavegar} />;
-  } else if (props.pagina === "sobre") {
-    conteudo = (
-      <PaginaSobre
-        onNavegar={props.onNavegar}
-        usuario={props.usuario}
-        onLogin={props.onLogin}
-        onSair={props.onSair}
-      />
-    );
-  } else if (props.pagina === "central") {
-    conteudo = (
-      <PaginaCentral
-        documentos={props.documentos}
-        lixeira={props.lixeira}
-        historico={props.historico}
-        onAlternarVisibilidade={props.onAlternarVisibilidade}
-        onMoverLixeira={props.onMoverLixeira}
-        onRecuperar={props.onRecuperar}
-        onExcluirDefinitivo={props.onExcluirDefinitivo}
-      />
-    );
-  } else {
-    conteudo = (
-      <PaginaInicio onNavegar={props.onNavegar} onSimular={props.onSimular} />
-    );
-  }
-
-  return <main>{conteudo}</main>;
+  return (
+    <main className="flex-1 pt-6">
+      <Routes>
+        <Route path="/" element={<PaginaInicio onSimular={props.onSimular} />} />
+        <Route path="/funcionamento" element={<PaginaFuncionamento />} />
+        <Route path="/tecnico" element={<PaginaTecnico />} />
+        <Route
+          path="/sobre"
+          element={<PaginaSobre usuario={props.usuario} onLogin={props.onLogin} onSair={props.onSair} />}
+        />
+        <Route
+          path="/central"
+          element={
+            <RotaPrivada usuario={props.usuario}>
+              <PaginaCentral
+                documentos={props.documentos}
+                lixeira={props.lixeira}
+                historico={props.historico}
+                onAlternarVisibilidade={props.onAlternarVisibilidade}
+                onMoverLixeira={props.onMoverLixeira}
+                onRecuperar={props.onRecuperar}
+                onExcluirDefinitivo={props.onExcluirDefinitivo}
+              />
+            </RotaPrivada>
+          }
+        />
+        <Route path="*" element={<PaginaNaoEncontrada />} />
+      </Routes>
+    </main>
+  );
 }
 
 export default Corpo;

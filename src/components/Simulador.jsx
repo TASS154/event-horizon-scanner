@@ -70,9 +70,12 @@ function Simulador(props) {
   }
 
   return (
-    <form className="formulario largo" onSubmit={enviarSimulacao}>
-      <label htmlFor="nome">Seu nome</label>
+    <form className="mt-4 flex w-full flex-col gap-2 rounded-lg border border-gray-300 bg-white p-4" onSubmit={enviarSimulacao}>
+      <label className="font-bold" htmlFor="nome">
+        Seu nome
+      </label>
       <input
+        className="rounded-md border border-gray-400 p-2.5"
         id="nome"
         type="text"
         value={nome}
@@ -80,8 +83,11 @@ function Simulador(props) {
         placeholder="Como você quer ser chamado"
       />
 
-      <label htmlFor="tipo">Tipo de documento</label>
+      <label className="font-bold" htmlFor="tipo">
+        Tipo de documento
+      </label>
       <input
+        className="rounded-md border border-gray-400 p-2.5"
         id="tipo"
         type="text"
         value={tipoDocumento}
@@ -89,8 +95,11 @@ function Simulador(props) {
         placeholder="Ex: contrato, apostila, artigo"
       />
 
-      <label htmlFor="paginas">Quantidade de páginas</label>
+      <label className="font-bold" htmlFor="paginas">
+        Quantidade de páginas
+      </label>
       <input
+        className="rounded-md border border-gray-400 p-2.5"
         id="paginas"
         type="number"
         min="1"
@@ -99,8 +108,11 @@ function Simulador(props) {
         placeholder="1"
       />
 
-      <label htmlFor="categoria">Álbum / pasta</label>
+      <label className="font-bold" htmlFor="categoria">
+        Álbum / pasta
+      </label>
       <select
+        className="rounded-md border border-gray-400 p-2.5"
         id="categoria"
         value={categoria}
         onChange={function (evento) { setCategoria(evento.target.value); }}
@@ -111,8 +123,11 @@ function Simulador(props) {
         <option value="Outros">Outros</option>
       </select>
 
-      <label htmlFor="visibilidade">Visibilidade</label>
+      <label className="font-bold" htmlFor="visibilidade">
+        Visibilidade
+      </label>
       <select
+        className="rounded-md border border-gray-400 p-2.5"
         id="visibilidade"
         value={visivel}
         onChange={function (evento) { setVisivel(evento.target.value); }}
@@ -121,10 +136,13 @@ function Simulador(props) {
         <option value="privado">Privado</option>
       </select>
 
-      <button className="btn" type="submit">
+      <button
+        className="inline-flex items-center justify-center rounded-md bg-brand-600 px-4 py-2.5 font-bold text-white hover:bg-brand-700"
+        type="submit"
+      >
         Simular escaneamento
       </button>
-      <p className="resultado-js">{mensagem}</p>
+      <p className="mt-1 rounded-md border border-brand-100 bg-brand-50 p-3 font-bold">{mensagem}</p>
     </form>
   );
 }

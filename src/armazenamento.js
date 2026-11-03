@@ -50,3 +50,21 @@ export function calcularTempoLeitura(paginas) {
 export function calcularValidadeDias() {
   return Math.round(Math.random() * 8) + 7;
 }
+
+export function tirarDaLista(lista, id) {
+  const ficaram = [];
+  let achado = null;
+
+  for (let i = 0; i < lista.length; i++) {
+    if (lista[i].id === id) {
+      achado = lista[i];
+    } else {
+      ficaram.push(lista[i]);
+    }
+  }
+
+  return {
+    ficaram: ficaram,
+    achado: achado
+  };
+}

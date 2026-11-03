@@ -1,25 +1,21 @@
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function FormLogin(props) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [mensagem, setMensagem] = useState("Preencha os campos para testar a validação.");
   const [tipoMensagem, setTipoMensagem] = useState("");
+  const navegar = useNavigate();
+  const localizacao = useLocation();
 
   function validarEmail(valor) {
-    return valor.includes("@") && valor.includes(".");
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor);
   }
 
-  /*
-    Revisão da IA
-    Antes: cada if do login repetia setMensagem, setTipoMensagem e alert.
-    Agora: uma função recebe o texto e o tipo (erro ou sucesso).
-    Motivo: a mensagem da tela e o alerta saíam diferentes quando alguém alterava só um dos três.
-  */
   function mostrarStatus(texto, tipo) {
     setMensagem(texto);
     setTipoMensagem(tipo);
-    alert(texto);
   }
 
   function enviarLogin(evento) {
@@ -50,18 +46,37 @@ function FormLogin(props) {
       return;
     }
 
-    mostrarStatus("Login validado com sucesso. Os dados ficam salvos no localStorage.", "sucesso");
+    mostrarStatus("Login realizado com sucesso. Redirecionando...", "sucesso");
     setEmail("");
     setSenha("");
+
+    const destino = localizacao.state && localizacao.state.destino;
+    if (destino && destino.pathname) {
+      navegar(destino.pathname + (destino.search || "") + (destino.hash || ""), { replace: true });
+    } else {
+      navegar("/central", { replace: true });
+    }
   }
+
+  const classeMensagem =
+    "mt-2 rounded-md p-2.5 " +
+    (tipoMensagem === "erro"
+      ? "bg-perigo-100 text-perigo-600"
+      : tipoMensagem === "sucesso"
+      ? "bg-sucesso-100 text-sucesso-700"
+      : "bg-gray-100 text-gray-700");
 
   if (props.usuario) {
     return (
-      <div className="aviso">
-        <p>
+      <div className="mt-6 rounded-lg border border-amber-400 bg-amber-50 p-4">
+        <p className="m-0 mb-3">
           Você está autenticado como <strong>{props.usuario.nome}</strong> ({props.usuario.email}).
         </p>
-        <button className="btn btn-sec" type="button" onClick={props.onSair}>
+        <button
+          className="inline-flex items-center justify-center rounded-md border-2 border-brand-600 bg-white px-4 py-2.5 font-bold text-brand-600 hover:bg-brand-50"
+          type="button"
+          onClick={props.onSair}
+        >
           Sair
         </button>
       </div>
@@ -69,31 +84,47 @@ function FormLogin(props) {
   }
 
   return (
-    <form className="formulario" onSubmit={enviarLogin}>
-      <label htmlFor="email">E-mail</label>
+    <form
+      className="mt-4 flex max-w-[420px] flex-col gap-2 rounded-lg border border-gray-300 bg-white p-4"
+      onSubmit={enviarLogin}
+    >
+      <label className="font-bold" htmlFor="email">
+        E-mail
+      </label>
       <input
-        type="text"
+        className="rounded-md border border-gray-400 p-2.5"
+        type="email"
         id="email"
         name="email"
         placeholder="exemplo@email.com"
+        autoComplete="username"
         value={email}
         onChange={function (evento) { setEmail(evento.target.value); }}
       />
 
-      <label htmlFor="senha">Senha</label>
+      <label className="font-bold" htmlFor="senha">
+        Senha
+      </label>
       <input
+        className="rounded-md border border-gray-400 p-2.5"
         type="password"
         id="senha"
         name="senha"
         placeholder="mínimo de 6 caracteres"
+        autoComplete="current-password"
         value={senha}
         onChange={function (evento) { setSenha(evento.target.value); }}
       />
 
-      <button className="btn" type="submit">
+      <button
+        className="inline-flex items-center justify-center rounded-md bg-brand-600 px-4 py-2.5 font-bold text-white hover:bg-brand-700"
+        type="submit"
+      >
         Validar login
       </button>
-      <p className={"mensagem" + (tipoMensagem ? " " + tipoMensagem : "")}>{mensagem}</p>
+      <p className={classeMensagem} role={tipoMensagem === "erro" ? "alert" : "status"} aria-live="polite">
+        {mensagem}
+      </p>
     </form>
   );
 }

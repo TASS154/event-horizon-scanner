@@ -1,52 +1,57 @@
-function Footer(props) {
-  if (props.pagina === "tecnico") {
+import { Link, useLocation } from "react-router-dom";
+
+function Footer() {
+  const localizacao = useLocation();
+  const caminho = localizacao.pathname;
+
+  if (caminho === "/tecnico") {
     return (
-      <footer>
-        FIAP · configure <code>CHAVE_API</code> no script Python ·{" "}
-        <button type="button" onClick={function () { props.onNavegar("funcionamento"); }}>
+      <footer className="mt-auto border-t border-gray-300 bg-gray-100 px-4 py-5 text-center text-sm text-gray-600">
+        FIAP · configure <code className="font-mono">CHAVE_API</code> no script Python ·{" "}
+        <Link to="/funcionamento" className="text-brand-600 underline hover:text-brand-700">
           Fluxo do usuário
-        </button>
+        </Link>
       </footer>
     );
   }
 
-  if (props.pagina === "funcionamento") {
+  if (caminho === "/funcionamento") {
     return (
-      <footer>
+      <footer className="mt-auto border-t border-gray-300 bg-gray-100 px-4 py-5 text-center text-sm text-gray-600">
         FIAP ·{" "}
-        <button type="button" onClick={function () { props.onNavegar("inicio"); }}>
+        <Link to="/" className="text-brand-600 underline hover:text-brand-700">
           Início
-        </button>
+        </Link>
         {" · "}
-        <button type="button" onClick={function () { props.onNavegar("tecnico"); }}>
+        <Link to="/tecnico" className="text-brand-600 underline hover:text-brand-700">
           Técnico
-        </button>
+        </Link>
       </footer>
     );
   }
 
-  if (props.pagina === "sobre") {
+  if (caminho === "/sobre") {
     return (
-      <footer>
+      <footer className="mt-auto border-t border-gray-300 bg-gray-100 px-4 py-5 text-center text-sm text-gray-600">
         FIAP · Event Horizon Scanner · documentação convertida para React
       </footer>
     );
   }
 
-  if (props.pagina === "central") {
+  if (caminho === "/central") {
     return (
-      <footer>
-        FIAP · Central de conteúdo salva no <code>localStorage</code> do navegador
+      <footer className="mt-auto border-t border-gray-300 bg-gray-100 px-4 py-5 text-center text-sm text-gray-600">
+        FIAP · Central de conteúdo salva no <code className="font-mono">localStorage</code> do navegador
       </footer>
     );
   }
 
   return (
-    <footer>
-      FIAP · protótipo inspirado em <code>AppScanner</code> ·{" "}
-      <button type="button" onClick={function () { props.onNavegar("sobre"); }}>
+    <footer className="mt-auto border-t border-gray-300 bg-gray-100 px-4 py-5 text-center text-sm text-gray-600">
+      FIAP · protótipo inspirado em <code className="font-mono">AppScanner</code> ·{" "}
+      <Link to="/sobre" className="text-brand-600 underline hover:text-brand-700">
         Sobre e requisitos
-      </button>
+      </Link>
     </footer>
   );
 }
